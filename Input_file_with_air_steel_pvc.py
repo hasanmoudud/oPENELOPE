@@ -15,16 +15,17 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 
-energy = 0.352
+energy = 0.662
 particle= "5e8"
-detector_ht = 3.81 # cm
-detector_rad = 3.81/2.0 #cm
-detector_housing_thickness = 0.20 # cm
-pvc_pipe_thickness = 0.30 # cm
+detector_ht = 3.82 # cm
+detector_rad = 3.82/2.0 #cm
+detector_housing_thickness = 0.10 # cm
+pvc_pipe_thickness = 0.20 # cm
 iner_radius = detector_rad + detector_housing_thickness + pvc_pipe_thickness # cm    
 #depth_borehole = 100.0 #cm
 out_radius = 50.0 + iner_radius  # cm 
-layer_width = [13, 23, 33, 43, 53, 63, 73, 83, 93, 103, 113, 123]
+#layer_width = [13, 23, 33, 43, 53, 63, 73, 83, 93, 103, 113, 123] #Kepskenburg
+layer_width = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95 , 100] #Molse Nete
 No_of_layer= len(layer_width) * 3
 
 for layer_b in range(0 , len(layer_width)):
@@ -48,54 +49,54 @@ for layer_b in range(0 , len(layer_width)):
             else:
                 layer_thickness_c = layer_width[layer_c] - layer_width[layer_c-1]
             if ((layer_thickness_c/2.0) -(detector_ht/2.0)) > detector_housing_thickness:
-                myfile.write ("LAYER              %2.2f          %2.2f   %i\n" %(layer_ind_thick, (layer_ind_thick+((layer_thickness_c/2.0) -(detector_ht/2.0)-detector_housing_thickness)),layer_no))
-                myfile.write ("CYLIND   1         0.00           %2.1f\n"% (iner_radius - pvc_pipe_thickness))
-                myfile.write ("CYLIND   2         %2.1f           %2.1f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
-                myfile.write ("CYLIND   3         %2.1f           %2.1f\n"% (iner_radius, out_radius))
+                myfile.write ("LAYER              %4.4f          %4.4f   %i\n" %(layer_ind_thick, (layer_ind_thick+((layer_thickness_c/2.0) -(detector_ht/2.0)-detector_housing_thickness)),layer_no))
+                myfile.write ("CYLIND   1         0.0000           %4.4f\n"% (iner_radius - pvc_pipe_thickness))
+                myfile.write ("CYLIND   2         %4.4f           %4.4f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
+                myfile.write ("CYLIND   3         %4.4f           %4.4f\n"% (iner_radius, out_radius))
                 layer_ind_thick = layer_ind_thick+((layer_thickness_c/2.0) -(detector_ht/2.0)-detector_housing_thickness)
                 layer_no +=1
 
-                myfile.write ("LAYER              %2.2f          %2.2f   %i\n" %(layer_ind_thick, (layer_ind_thick+detector_housing_thickness),layer_no))
-                myfile.write ("CYLIND   4         0.00           %2.1f\n"% (iner_radius - pvc_pipe_thickness))
-                myfile.write ("CYLIND   2         %2.1f           %2.1f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
-                myfile.write ("CYLIND   3         %2.1f           %2.1f\n"% (iner_radius, out_radius))
+                myfile.write ("LAYER              %4.4f          %4.4f   %i\n" %(layer_ind_thick, (layer_ind_thick+detector_housing_thickness),layer_no))
+                myfile.write ("CYLIND   4         0.0000           %4.4f\n"% (iner_radius - pvc_pipe_thickness))
+                myfile.write ("CYLIND   2         %4.4f           %4.4f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
+                myfile.write ("CYLIND   3         %4.4f           %4.4f\n"% (iner_radius, out_radius))
                 layer_ind_thick = layer_ind_thick+detector_housing_thickness
                 layer_no +=1
             else:
-                myfile.write ("LAYER              %2.2f          %2.2f   %i\n" %(layer_ind_thick, (layer_ind_thick+detector_housing_thickness),layer_no))
-                myfile.write ("CYLIND   4         0.00           %2.1f\n"% (iner_radius - pvc_pipe_thickness))
-                myfile.write ("CYLIND   2         %2.1f           %2.1f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
-                myfile.write ("CYLIND   3         %2.1f           %2.1f\n"% (iner_radius, out_radius))
+                myfile.write ("LAYER              %4.4f          %4.4f   %i\n" %(layer_ind_thick, (layer_ind_thick+detector_housing_thickness),layer_no))
+                myfile.write ("CYLIND   4         0.0000           %4.4f\n"% (iner_radius - pvc_pipe_thickness))
+                myfile.write ("CYLIND   2         %4.4f           %4.4f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
+                myfile.write ("CYLIND   3         %4.4f           %4.4f\n"% (iner_radius, out_radius))
                 layer_ind_thick = layer_ind_thick+detector_housing_thickness
                 layer_no +=1
 
-            myfile.write ("LAYER              %2.2f          %2.2f   %i\n" %(layer_ind_thick,(layer_ind_thick+detector_ht), layer_no))
-            myfile.write ("CYLIND   5         0.0           %2.2f\n" %detector_rad)
-            myfile.write ("CYLIND   4         %2.2f           %2.2f\n" %(detector_rad, (detector_rad+detector_housing_thickness)))
-            myfile.write ("CYLIND   2         %2.2f           %2.2f\n" %((detector_rad+detector_housing_thickness), (detector_rad+detector_housing_thickness+pvc_pipe_thickness)))
-            myfile.write ("CYLIND   3         %2.1f           %2.1f\n"% (iner_radius, out_radius))
+            myfile.write ("LAYER              %4.4f          %4.4f   %i\n" %(layer_ind_thick,(layer_ind_thick+detector_ht), layer_no))
+            myfile.write ("CYLIND   5         0.0000           %4.4f\n" %detector_rad)
+            myfile.write ("CYLIND   4         %4.4f           %4.4f\n" %(detector_rad, (detector_rad+detector_housing_thickness)))
+            myfile.write ("CYLIND   2         %4.4f           %4.4f\n" %((detector_rad+detector_housing_thickness), (detector_rad+detector_housing_thickness+pvc_pipe_thickness)))
+            myfile.write ("CYLIND   3         %4.4f           %4.4f\n"% (iner_radius, out_radius))
             layer_ind_thick =(layer_ind_thick+detector_ht)
             layer_no +=1 
             # Housing thickness 
             if ((layer_thickness_c/2.0) -(detector_ht/2.0)) > detector_housing_thickness:
-                myfile.write ("LAYER              %2.2f          %2.2f   %i\n" %(layer_ind_thick, (layer_ind_thick+detector_housing_thickness),layer_no))
-                myfile.write ("CYLIND   1         0.00           %2.1f\n"% (iner_radius - pvc_pipe_thickness))
-                myfile.write ("CYLIND   2         %2.1f           %2.1f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
-                myfile.write ("CYLIND   3         %2.1f           %2.1f\n"% (iner_radius, out_radius))
+                myfile.write ("LAYER              %4.4f          %4.4f   %i\n" %(layer_ind_thick, (layer_ind_thick+detector_housing_thickness),layer_no))
+                myfile.write ("CYLIND   1         0.0000           %4.4f\n"% (iner_radius - pvc_pipe_thickness))
+                myfile.write ("CYLIND   2         %4.4f           %4.4f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
+                myfile.write ("CYLIND   3         %4.4f           %4.4f\n"% (iner_radius, out_radius))
                 layer_ind_thick = layer_ind_thick+detector_housing_thickness
                 layer_no +=1
 
-                myfile.write ("LAYER              %2.2f          %2.2f   %i\n" %(layer_ind_thick,(layer_ind_thick+(layer_thickness_c/2.0)-(detector_ht/2.0)- detector_housing_thickness),layer_no))
-                myfile.write ("CYLIND   4         0.00           %2.1f\n"% (iner_radius - pvc_pipe_thickness))
-                myfile.write ("CYLIND   2         %2.1f           %2.1f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
-                myfile.write ("CYLIND   3         %2.1f           %2.1f\n"% (iner_radius, out_radius))
+                myfile.write ("LAYER              %4.4f          %4.4f   %i\n" %(layer_ind_thick,(layer_ind_thick+(layer_thickness_c/2.0)-(detector_ht/2.0)- detector_housing_thickness),layer_no))
+                myfile.write ("CYLIND   4         0.0000           %4.4f\n"% (iner_radius - pvc_pipe_thickness))
+                myfile.write ("CYLIND   2         %4.4f           %4.4f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
+                myfile.write ("CYLIND   3         %4.4f           %4.4f\n"% (iner_radius, out_radius))
                 layer_ind_thick = (layer_ind_thick+(layer_thickness_c/2.0)-(detector_ht/2.0)-detector_housing_thickness)
                 layer_no +=1
             else:
-                myfile.write ("LAYER              %2.2f          %2.2f   %i\n" %(layer_ind_thick, (layer_ind_thick+detector_housing_thickness),layer_no))
-                myfile.write ("CYLIND   4         0.00           %2.1f\n"% (iner_radius - pvc_pipe_thickness))
-                myfile.write ("CYLIND   2         %2.1f           %2.1f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
-                myfile.write ("CYLIND   3         %2.1f           %2.1f\n"% (iner_radius, out_radius))
+                myfile.write ("LAYER              %4.4f          %4.4f   %i\n" %(layer_ind_thick, (layer_ind_thick+detector_housing_thickness),layer_no))
+                myfile.write ("CYLIND   4         0.0000           %4.4f\n"% (iner_radius - pvc_pipe_thickness))
+                myfile.write ("CYLIND   2         %4.4f           %4.4f\n"% (iner_radius - pvc_pipe_thickness, iner_radius ))
+                myfile.write ("CYLIND   3         %4.4f           %4.4f\n"% (iner_radius, out_radius))
                 layer_ind_thick = layer_ind_thick+detector_housing_thickness
                 layer_no +=1
         
@@ -103,8 +104,8 @@ for layer_b in range(0 , len(layer_width)):
         myfile.write ("       .\n")
         myfile.write ("SKPAR  2\n")
         myfile.write ("SENERG    %2.4fe6\n" %energy)
-        myfile.write ("STHICK   %2.1f\n" %layer_thickness)
-        myfile.write ("SRADII   %2.1f        %2.1f\n" %(iner_radius, out_radius))
+        myfile.write ("STHICK   %4.4f\n" %layer_thickness)
+        myfile.write ("SRADII   %4.4f        %4.4f\n" %(iner_radius, out_radius))
         myfile.write ("SPOSIT   0    0    %3.4F\n" %source_pos)
         myfile.write ("SCONE    0.0   0.0    180.0\n")
         myfile.write ("       .\n")
@@ -112,7 +113,7 @@ for layer_b in range(0 , len(layer_width)):
         myfile.write ("MSIMPA 3.0e5 1.0e4 3.0e5 0.2 0.2 1.0e6 1.0e6\n")
         myfile.write ("MFNAME PVC.mat\n")
         myfile.write ("MSIMPA 3.0e5 1.0e4 3.0e5 0.2 0.2 1.0e6 1.0e6\n")
-        myfile.write ("MFNAME soil.mat\n")
+        myfile.write ("MFNAME Soil14_water0.mat\n")
         myfile.write ("MSIMPA 3.0e5 1.0e4 3.0e5 0.2 0.2 1.0e6 1.0e6\n")
         myfile.write ("MFNAME steel.mat\n")
         myfile.write ("MSIMPA 3.0e5 1.0e4 3.0e5 0.2 0.2 1.0e6 1.0e6\n")

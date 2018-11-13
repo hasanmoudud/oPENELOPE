@@ -20,10 +20,11 @@ os.chdir(working_directory)
 parameter = { "Effi_total_counts_Ra":["Total_Ra", "Total_counts_cps"],
               "Effi_dose_microSv_s_Ra":["Total_Ra", "Dose_microSv_sec"],
               "Effi_E352":["E_352", "Net_Peak_counts_E352"],
+              "Effi_E352s":["E_352", "Net_Peak_counts_E352"],
               "Effi_E609":["E_609", "Net_Peak_counts_E609"]
             }
 
-Uncertainty_parameter = { "Uncertainty_E352":["E_352", "Effi_E352"],
+Uncertainty_parameter = { "Uncertainty_E352":["E_352", "Effi_E352s"],
               "Uncertainty_E609":["E_609", "Effi_E609"]
             }
 
