@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 from numpy import genfromtxt
 import numpy as np
 import pandas as pd 
-import matplotlib.pyplot as plt
 from tkinter import Tk
 from tkinter import filedialog
 
@@ -19,11 +18,13 @@ os.chdir(working_directory)
 
 
 
-parameter = { "Effi_total_counts_AmCs":["Total_AmCS", "Total_counts_cps"],
-              "Effi_dose_microSv_s_AmCs":["Total_AmCS", "Dose_microSv_sec"],
-              "Effi_total_counts_Cs":["Total_CS", "Total_counts_cps"],
-              "Effi_dose_microSv_s_Cs":["Total_CS", "Dose_microSv_sec"],
-              "Effi_E662":["E_662", "Net_Peak_counts_E662"],
+#parameter = { "Effi_total_counts_AmCs":["Total_AmCS", "Total_counts_cps"],
+#              "Effi_dose_microSv_s_AmCs":["Total_AmCS", "Dose_microSv_sec"],
+#              "Effi_total_counts_Cs":["Total_CS", "Total_counts_cps"],
+#              "Effi_dose_microSv_s_Cs":["Total_CS", "Dose_microSv_sec"],
+#              "Effi_E662":["E_662", "Net_Peak_counts_E662"],
+#            }
+parameter = { "Effi_E662":["E_662", "Net_Peak_counts_E662"],
             }
 
 
@@ -68,11 +69,11 @@ Activity_all["Uncertainty_662"] = Uncertainty_calculation(file_name_s = file_nam
 count_un_s = Measured_data["Uncertainty_662"].values)
 
 Activity_all_data= pd.DataFrame.from_dict(Activity_all)
-writer = pd.ExcelWriter(working_directory+"/Activity_all_data_optimized.xlsx")
+writer = pd.ExcelWriter(working_directory+"/Activity_all_data_optimized_new_density_field.xlsx")
 Activity_all_data.to_excel(writer,'Activity_all_data')
 writer.save()
 
-Activity_all_data.plot(x= Measured_data["Depth"],figsize=(8,6))
+#Activity_all_data.plot(x= Measured_data["Depth"],figsize=(8,6))
 #plt.plot(Total_activity_optimized, label="Total")
 #plt.plot(Dose_activity_optimized, label="Dose")
 #plt.plot(E356_activity_optimized, label="Peak")

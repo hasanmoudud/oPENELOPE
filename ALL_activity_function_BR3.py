@@ -20,11 +20,13 @@ os.chdir(working_directory)
 parameter = { "Effi_total_counts_Ba":["Total_Ba", "Total_counts_cps"],
               "Effi_dose_microSv_s_Ba":["Total_Ba", "Dose_microSv_sec"],
               "Effi_E356":["E_356", "Net_Peak_counts_E356"],
+              "Effi_E301":["E_301", "Net_Peak_counts_E301"],
               "Effi_E1173":["E_1173", "Net_Peak_counts_E1173"],
               "Effi_E1332":["E_1332", "Net_Peak_counts_E1332"],
             }
 
 Uncertainty_parameter = { "Uncertainty_E356":["E_356", "Effi_E356"],
+                         "Uncertainty_E301":["E_301", "Effi_E301"],
               "Uncertainty_E1173":["E_1173", "Effi_E1173"],
               "Uncertainty_E1332":["E_1332", "Effi_E1332"],
             }
@@ -86,7 +88,7 @@ writer = pd.ExcelWriter(working_directory+"/Activity_all_data_optimized.xlsx")
 Activity_all_data.to_excel(writer,'Activity_all_data')
 writer.save()
 
-Activity_all_data.plot(x= Measured_data["Depth"],figsize=(8,6))
+#Activity_all_data.plot(x= Measured_data["Depth"],figsize=(8,6))
     
     
     

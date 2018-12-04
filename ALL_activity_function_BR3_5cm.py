@@ -17,26 +17,21 @@ os.chdir(working_directory)
 
 
 
-parameter = { "Effi_total_counts_Ra":["Total_Ra", "Total_counts_cps"],
-              "Effi_dose_microSv_s_Ra":["Total_Ra", "Dose_microSv_sec"],
-              "Effi_E352":["E_352", "Net_Peak_counts_E352"],
-              "Effi_E352s":["E_352", "Net_Peak_counts_E352"],
-              "Effi_E352s1m":["E_352", "Net_Peak_counts_E352"],
-              "Effi_E609":["E_609", "Net_Peak_counts_E609"],
-              "Effi_E609s1m":["E_609", "Net_Peak_counts_E609"]
+parameter = { "Effi_E356":["E_356", "Net_Peak_counts_E356"],
+              "Effi_E301":["E_301", "Net_Peak_counts_E301"],
             }
 
-Uncertainty_parameter = { "Uncertainty_E352":["E_352", "Effi_E352s1m"],
-              "Uncertainty_E609":["E_609", "Effi_E609s1m"]
+Uncertainty_parameter = { "Uncertainty_E356":["E_356", "Effi_E356"],
+                         "Uncertainty_E301":["E_301", "Effi_E301"]
             }
 
 file_name = filedialog.askopenfilename(title='Please select excel file with all data')
-Measured_data = pd.read_excel(file_name, sheet_name="Measured")
-Eimission_probability = pd.read_excel(file_name, sheet_name="Eimission_probability")
+Measured_data = pd.read_excel(file_name, sheetname="Measured")
+Eimission_probability = pd.read_excel(file_name, sheetname="Eimission_probability")
 
 
 def activity_calculation(file_name_s, sheetname_s, Em_probalility, cps):
-    efficency_mass = pd.read_excel(file_name, sheet_name= sheetname_s, header=None)
+    efficency_mass = pd.read_excel(file_name, sheetname= sheetname_s, header=None)
     efficency_mass_mat = efficency_mass.values
     efficency_mass_mat_em = efficency_mass_mat * Em_probalility
     init_len = len(cps)
@@ -48,7 +43,7 @@ def activity_calculation(file_name_s, sheetname_s, Em_probalility, cps):
     return Activity_optimized
 
 def Uncertainty_calculation(file_name_s, sheetname_s, Em_probalility, count_un_s):
-    efficency_mass = pd.read_excel(file_name, sheet_name= sheetname_s, header=None)
+    efficency_mass = pd.read_excel(file_name, sheetname= sheetname_s, header=None)
     efficency_mass_mat = efficency_mass.values
     efficency_mass_mat_em = efficency_mass_mat * Em_probalility
     init_len = len(count_un_s)
@@ -83,7 +78,7 @@ for key in Uncertainty_parameter:
     count_un_s = Measured_data[key].values)
 
 Activity_all_data= pd.DataFrame.from_dict(Activity_all)
-writer = pd.ExcelWriter(working_directory+"/Activity_all_data_optimized_sm.xlsx")
+writer = pd.ExcelWriter(working_directory+"/Activity_all_data_optimized_5cm.xlsx")
 Activity_all_data.to_excel(writer,'Activity_all_data')
 writer.save()
 

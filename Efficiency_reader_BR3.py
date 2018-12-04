@@ -15,11 +15,11 @@ os.chdir(working_directory)
 
  #------------- Input ----------
  
-source_thickness = 10.0 # cm 
-Srad_inner = 2.0 #cm
-Srad_outter = 52.0 #cm 
-soil_density = 1.4 #g/cm3 
-No_of_layer= 60   # layer no * 3
+source_thickness = 5.0 # cm 
+Srad_inner = 2.5 #cm
+Srad_outter = 42.5 #cm 
+soil_density = 1.0 #g/cm3 
+No_of_layer= 100   # layer no * 3
 
 #-------------------------------
 
@@ -27,9 +27,9 @@ density_out = {}
 uncertainty_out = {}
 total_counts = {}
 
-layer_no = 3
+layer_no = 4
 while layer_no < No_of_layer:
-    filename_out =working_directory+"/KP_Ra_%i_6.txt" %(layer_no)
+    filename_out =working_directory+"/KP_Ra_%i_2.txt" %(layer_no)
     out_data = genfromtxt(filename_out)
     x = out_data[ : , 0]
     y = out_data[ : , 1]
@@ -39,7 +39,7 @@ while layer_no < No_of_layer:
     density_out [layer_no]= out_data [-1, 1] * interval_enr  # Location  of energy line
     uncertainty_out [layer_no]= out_data [-1, 2] * interval_enr
     total_counts[layer_no] = sum(out_data [ : , 1]*interval_enr)
-    layer_no +=5
+    layer_no +=7
 
 volume_in = 3.1416*source_thickness* Srad_inner**2
 volume_out = 3.1416*source_thickness* Srad_outter**2
@@ -65,7 +65,7 @@ density_M = density_data * mass
 uncertainty_M = uncertainty_data * mass
 total_counts_data_M = total_counts_data * mass
 
-writer = pd.ExcelWriter(working_directory+"/Simulation_BR3_Ba133_301_5.xlsx")
+writer = pd.ExcelWriter(working_directory+"/Simulation_Molse_Cs_662_1.xlsx")
 density_data.to_excel(writer,'Efficiency')
 density_M.to_excel(writer,'Density_mass')
 uncertainty_data.to_excel(writer,'Uncertainty')

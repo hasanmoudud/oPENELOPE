@@ -11,9 +11,9 @@ from tkinter import filedialog
 working_directory = filedialog.askdirectory(title='Please select working directory')
 os.chdir(working_directory)
 
-source_thickness = 13.0 # cm 
-Srad_inner = 2.0 #cm
-Srad_outter = 52.0 #cm 
+source_thickness = 10.0 # cm 
+Srad_inner = 2.5 #cm
+Srad_outter = 62.5 #cm 
 soil_density = 1.4 #g/cm3 
 
 
@@ -31,7 +31,7 @@ for i in range (1,11):
     out_data = genfromtxt(filename_out)
     dose_all[i]=out_data[2] * (1.6E-19*1000/0.000001) * mass  # microSV
 dose_data= pd.DataFrame.from_dict(dose_all, orient='index')
-writer = pd.ExcelWriter(working_directory+"/Dose_Ra226_609_mass.xlsx")
+writer = pd.ExcelWriter(working_directory+"/Dose_KP_Ra226D_mass.xlsx")
 dose_data.to_excel(writer,'Dose')
 writer.save()
 print (dose_all)
