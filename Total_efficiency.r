@@ -9,11 +9,11 @@ number_of_files = 12
 iner_radius = 2.5
 outter_radius = 62.5
 density_mat = 1.4
-thickness = 13
+thickness = 10
 
 
 volume = 3.1416 * (outter_radius^2 - iner_radius^2) * thickness
-mass = volume * density_mat
+mass = volume * density_mat/1000.0
 
 efficiency_calculater <- function(file, mass){
   spec_data <- read_table2(file, col_names = FALSE, skip = 6, comment = "#")

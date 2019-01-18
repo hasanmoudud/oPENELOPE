@@ -66,7 +66,17 @@ def Uncertainty_calculation(file_name_s, sheetname_s, Em_probalility, count_un_s
     uncertainty1_dia_r = np.append(uncertainty1_dia_r, zero_values)
     return uncertainty1_dia_r
 
-
+def activity_countrate(file_name_s, sheetname_s, Em_probalility, activity):
+    efficency_mass = pd.read_excel(file_name, sheetname= sheetname_s, header=None)
+    efficency_mass_mat = efficency_mass.values
+    efficency_mass_mat_em = efficency_mass_mat * Em_probalility
+    init_len = len(activity)
+    activity = activity[np.nonzero(activity)]
+    mat_len = len(activity)
+    zero_values = np.zeros(init_len - mat_len)
+    Activity_optimized = np.linalg.lstsq(np.linalg.inv(efficency_mass_mat_em[0:mat_len, 0:mat_len]), activity)[0] 
+    Activity_optimized = np.append(Activity_optimized, zero_values) 
+    return Activity_optimized
 
 Activity_all = {}
 Activity_all["Depth"] = Measured_data["Depth"].values
@@ -84,10 +94,33 @@ for key in Uncertainty_parameter:
     count_un_s = Measured_data[key].values)
 
 Activity_all_data= pd.DataFrame.from_dict(Activity_all)
-writer = pd.ExcelWriter(working_directory+"/Activity_all_data_optimized.xlsx")
+writer = pd.ExcelWriter(working_directory+"/Activity_all_data_optimized_new.xlsx")
 Activity_all_data.to_excel(writer,'Activity_all_data')
 writer.save()
 
+
+parameter_count = {"Lab_activity_Ba":["Total_Ba", "Effi_total_counts_Ba"],
+                   "Lab_activity_Co":["Total_Co", "Effi_total_counts_Co"],
+                   "Lab_activity_Eu152":["Total_Eu152", "Effi_total_counts_Eu152"],
+                   "Lab_activity_Eu155":["Total_Eu155", "Effi_total_counts_Eu155"],
+                   "Activity_total_Ba":["Total_Ba", "Effi_total_counts_Ba"],
+                   "Activity_E356":["Total_Ba", "Effi_total_counts_Ba"],
+              "Activity_E301":["Total_Ba", "Effi_total_counts_Ba"],
+              "Activity_E1173":["Total_Co", "Effi_total_counts_Co"],
+              "Activity_E1332":["Total_Co", "Effi_total_counts_Co"],
+            }
+
+Countrate_all = {}
+for key in parameter_count:
+    Countrate_all[key] = activity_countrate(file_name_s = file_name, 
+                                            sheetname_s = parameter_count[key][1], 
+                                            Em_probalility = Eimission_probability[parameter_count[key][0]].values, 
+                                            activity = Measured_data[key].values)
+
+Countrate_all_data= pd.DataFrame.from_dict(Countrate_all)
+writer1 = pd.ExcelWriter(working_directory+"/Countrate_all_data_optimized_new.xlsx")
+Countrate_all_data.to_excel(writer1,'Countrate_all_data')
+writer1.save()
 #Activity_all_data.plot(x= Measured_data["Depth"],figsize=(8,6))
     
     
