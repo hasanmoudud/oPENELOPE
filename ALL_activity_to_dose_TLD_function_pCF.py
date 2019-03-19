@@ -33,7 +33,7 @@ for nuclide in nuclides:
     time_total = Eimission_probability["Time"][nuclide]
     
     Effi_dose_microSv_s_mat = Effi_dose_microSv_s_mat * Total_probalility
-    Effi_dose_microSv_s_mat = Effi_dose_microSv_s_mat / Conversion_factor
+    #Effi_dose_microSv_s_mat = Effi_dose_microSv_s_mat / Conversion_factor
     Effi_dose_microSv_s_mat = Effi_dose_microSv_s_mat * time_total
     
     Measured_activity = Measured_data["Activity_%s" %nuclide].values 
@@ -43,7 +43,7 @@ for nuclide in nuclides:
 
 
 Activity_all_data= pd.DataFrame.from_dict(Activity_all)
-writer = pd.ExcelWriter(working_directory+"/Dose_From_activity_all_data_optimized.xlsx")
+writer = pd.ExcelWriter(working_directory+"/Dose_From_activity_all_data_ratio_activity.xlsx")
 Activity_all_data.to_excel(writer,'Dose_all_data')
 writer.save()
 
