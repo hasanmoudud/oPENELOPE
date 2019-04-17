@@ -38,7 +38,7 @@ def activity_calculation(file_name_s, sheetname_s, Em_probalility, cps):
     mat_len = len(cps)
     zero_values = np.zeros(init_len - mat_len)
     print(np.linalg.cond(efficency_mass_mat_em [0:mat_len, 0:mat_len]))
-    Activity_optimized = lsq_linear(efficency_mass_mat_em [0:mat_len, 0:mat_len], cps, method='trf', bounds=(0, 5000), lsq_solver='lsmr', verbose=0) 
+    Activity_optimized = lsq_linear(efficency_mass_mat_em [0:mat_len, 0:mat_len], cps, method='trf', bounds=(0.01, 50000), lsq_solver='lsmr', verbose=0) 
     Activity_optimized1 = np.append(Activity_optimized["x"], zero_values)
     return Activity_optimized1
 
@@ -78,7 +78,7 @@ for key in Uncertainty_parameter:
     count_un_s = Measured_data[key].values)
 
 Activity_all_data= pd.DataFrame.from_dict(Activity_all)
-writer = pd.ExcelWriter(working_directory+"/Activity_all_data_optimized_sparce.xlsx")
+writer = pd.ExcelWriter(working_directory+"/Activity_all_data_optimized_sparce_newMat.xlsx")
 Activity_all_data.to_excel(writer,'Activity_all_data')
 writer.save()
 

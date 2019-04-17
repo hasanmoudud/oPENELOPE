@@ -30,7 +30,7 @@ Measured_data = pd.read_excel(file_name, sheetname="Measured")
 Msdata = Measured_data[["Right","Up","Left","Down"]].values
 
 nuclides = ["Cs", "Am", "K"]
-writer = pd.ExcelWriter(working_directory+"/Dose_all_data_optimized_Molsenete_uncertainty_All.xlsx")
+writer = pd.ExcelWriter(working_directory+"/Dose_all_data_optimized_Molsenete_uncertainty_All_background.xlsx")
 
 for nuclide in nuclides:
     Activity_all1 = {}
@@ -53,11 +53,11 @@ for nuclide in nuclides:
     dose_type = ["Dose_total", "Right","Up","Left","Down"]
     for type_D in dose_type:
         Measured_dose = Measured_data[type_D].values * Measured_ratio
-        Dose_activity_optimized2 = sp.cho_solve(sp.cho_factor(Effi_dose_microSv_s_mat), Measured_dose)
-        Activity_all1["%s%s_cho" %(nuclide,type_D)] = Dose_activity_optimized2
-        Dose_activity_optimized0, res, rnk, s = lstsq(Effi_dose_microSv_s_mat, Measured_dose)
-        Activity_all1["%s%s" %(nuclide,type_D)] = Dose_activity_optimized0
-        Dose_activity_optimized1 = lsq_linear(Effi_dose_microSv_s_mat,  Measured_dose, method='trf', bounds=(0, 500000), lsq_solver='lsmr', verbose=0)
+        #Dose_activity_optimized2 = sp.cho_solve(sp.cho_factor(Effi_dose_microSv_s_mat), Measured_dose)
+        #Activity_all1["%s%s_cho" %(nuclide,type_D)] = Dose_activity_optimized2
+        #Dose_activity_optimized0, res, rnk, s = lstsq(Effi_dose_microSv_s_mat, Measured_dose)
+        #Activity_all1["%s%s" %(nuclide,type_D)] = Dose_activity_optimized0
+        Dose_activity_optimized1 = lsq_linear(Effi_dose_microSv_s_mat,  Measured_dose, method='trf', bounds=(0, 5000), lsq_solver='lsmr', verbose=0)
         Activity_all1["%s%s_s" %(nuclide,type_D)] = Dose_activity_optimized1["x"]
         Dose_all1["%s%s" %(nuclide,type_D)] = Measured_dose
         
@@ -69,7 +69,7 @@ for nuclide in nuclides:
         Measured_dose = dose * Measured_ratio
         #Dose_activity_optimized1 = sp.cho_solve(sp.cho_factor(Effi_dose_microSv_s_mat), Measured_dose)
         #Dose_activity_optimized1, res, rnk, s = lstsq(Effi_dose_microSv_s_mat, Measured_dose)
-        Dose_activity_optimized1 = lsq_linear(Effi_dose_microSv_s_mat,  Measured_dose, method='trf', bounds=(0, 500000), lsq_solver='lsmr', verbose=0)
+        Dose_activity_optimized1 = lsq_linear(Effi_dose_microSv_s_mat,  Measured_dose, method='trf', bounds=(0, 5000), lsq_solver='lsmr', verbose=0)
         Activity_all1["%s%i" %(nuclide,un)] = Dose_activity_optimized1["x"]
         Dose_all1["%s%i" %(nuclide,un)] = dose
         
@@ -89,9 +89,10 @@ for nuclide in nuclides:
 #    plt.plot(Activity_all_data1["Depth"].values, Activity_all_data1["%sLeft" %(nuclide)], 'bo', label="Left (TLD)")
 #    plt.plot(Activity_all_data1["Depth"].values, Activity_all_data1["%sDown" %(nuclide)], 'yo', label="Down (TLD)")
     plt.plot(Activity_all_data1["Depth"].values, Measured_data["Activity_%s" %(nuclide)].values, 'g-', label= "Lab")
-    #plt.plot(Activity_all_data1["Depth"].values, Measured_data["Activity_insitu_%s" %(nuclide)].values, 'y-', label= "Insitu(labr3)")
+    if nuclide == "Cs":
+        plt.plot(Activity_all_data1["Depth"].values, Measured_data["Activity_insitu_%s" %(nuclide)].values, 'y-', label= "Insitu(labr3)")
 
-    plt.boxplot(Activity_all_data1.iloc[:, 6:1001], positions=Activity_all_data1["Depth"].values,  whis=[5,95], showfliers=False)
+    plt.boxplot(Activity_all_data1.iloc[:, 6:1001], positions=Activity_all_data1["Depth"].values,  whis=[2.5,97.5], showfliers=False)
     
     # Reset the xtick locations.
     plt.xticks(Activity_all_data1["Depth"].values)

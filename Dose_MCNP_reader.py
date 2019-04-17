@@ -9,12 +9,7 @@ import os
 from tkinter import filedialog
 import numpy as np
 
-source_thickness = 5.0 # cm 
-Srad_inner = 2.5 #cm
-Srad_outter = 102.5 #cm 
-soil_density = 1.4 #g/cm3 
-mev_to_SV = 1.602E-10
-SV_to_micro = 1000000
+
 
 # Change to working directory to current file location 
 working_directory = filedialog.askdirectory(title='Please select working directory')
@@ -22,6 +17,12 @@ os.chdir(working_directory)
 
 file_name = filedialog.askopenfilename(title='Please select outp file')
 
+source_thickness = 5.0 # cm 
+Srad_inner = 2.5 #cm
+Srad_outter = 202.5 #cm 
+soil_density = 1.8 #g/cm3 
+mev_to_SV = 1.602E-10
+SV_to_micro = 1000000
 volume_in = 3.1416*source_thickness* Srad_inner**2
 volume_out = 3.1416*source_thickness* Srad_outter**2
 volume = volume_out - volume_in
@@ -40,7 +41,7 @@ with open(file_name) as input_data:
             break
         if line.strip() == "there are no nonzero tallies in the tally fluctuation chart bin for tally        6":
             break 
-        if line.strip() != '' and len(line.strip().split()) <=2 and line.strip().split()[0] != "cell":
+        if line.strip() != '' and len(line.strip().split())==2 and line.strip().split()[0] != "cell" and line.strip().split()[0] != "cell:":
             data_line.append(line.strip().split())  # Line is extracted (or block_of_lines.append(line), etc.)
             print (line.strip().split()[0])
 
